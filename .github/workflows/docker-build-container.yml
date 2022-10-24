@@ -16,4 +16,4 @@ jobs:
       with:
         context: .
         push: true
-        tags: custibor29/charging-station:latest, custibor29/charging-station${{github.run_number}}
+        tags: custibor29/charging-station:latest, cutibo29/charging-station${{github.run_number}}
