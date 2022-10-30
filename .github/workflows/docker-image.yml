@@ -15,5 +15,5 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - name: Build the Docker image
-      run: docker build . --file Dockerfile --build-arg db_port=1433 --build-arg db_database=rso-tc --build-arg db_username="${{DB_USERNAME}}" --build-arg db_password=28wH8k@123 --build-arg db_hostname=rso-tc.database.windows.net  --tag charging-station:$(date +%s)
+      run: docker build . --file Dockerfile --build-arg db_port=1433 --build-arg db_database=rso-tc --build-arg db_username=${DB_USERNAME} --build-arg db_password=28wH8k@123 --build-arg db_hostname=rso-tc.database.windows.net  --tag charging-station:$(date +%s)
 
