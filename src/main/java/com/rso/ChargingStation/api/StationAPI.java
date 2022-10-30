@@ -33,10 +33,11 @@ public class StationAPI {
     @GetMapping("/nearest")
     public ChargingStation getClosestStation(@RequestParam Double x, @RequestParam Double y){
         return new ChargingStation(100L,
-                new Location(x,y),
-                "Closest station",
+                x,
+                y,
+                StationType.TYPE1,
                 3,
-                StationType.TYPE1);
+                "Closest station");
     }
 
     @PostMapping(path="/add", consumes=MediaType.APPLICATION_JSON_VALUE, produces=MediaType.APPLICATION_JSON_VALUE)
