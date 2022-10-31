@@ -25,6 +25,10 @@ jobs:
         docker build . --file Dockerfile  --build-arg db_username=$username_param --build-arg db_password=$password_param --build-arg db_hostname=$hostname_param --build-arg db_port=$port_param --build-arg db_database=$database_param --tag cutibo29/charging-station:latest
     
     - uses: actions/checkout@v3
+    - name: login to dockerhub
+      run: docker login -u cutibo29 -p 28Wh8k@123
+    
+    - uses: actions/checkout@v3
     - name: push docker image
       run: docker push cutibo29/charging-station:latest
     
