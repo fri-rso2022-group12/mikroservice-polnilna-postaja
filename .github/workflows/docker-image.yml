@@ -16,7 +16,7 @@ jobs:
       password_param: '${{ secrets.DB_PASSWORD }}'
       hostname_param: '${{ secrets.DB_HOSTNAME }}'
       port_param: '${{ secrets.DB_PORT }}'
-      database_param: '${{ secrets.$DB_DATABASE }}'
+      database_param: '${{ secrets.DB_DATABASE }}'
 
     steps:
     - uses: actions/checkout@v3
