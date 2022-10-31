@@ -17,6 +17,8 @@ jobs:
       hostname_param: '${{ secrets.DB_HOSTNAME }}'
       port_param: '${{ secrets.DB_PORT }}'
       database_param: '${{ secrets.DB_DATABASE }}'
+      hub_username: ${{secrets.DOCKER_HUB_USERNAME}}
+      hub_password: ${{secrets.DOCKER_HUB_ACCESS_TOKEN}}
 
     steps:
     - uses: actions/checkout@v3
@@ -26,7 +28,7 @@ jobs:
     
     - uses: actions/checkout@v3
     - name: login to dockerhub
-      run: docker login -u cutibo29 -p 28Wh8k@123
+      run: docker login -u $hub_username -p $hub_password
     
     - uses: actions/checkout@v3
     - name: push docker image
