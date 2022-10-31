@@ -3,6 +3,12 @@ jobs:
   build-container:
     name: Build container
     runs-on: ubuntu-latest
+    env:
+      username_param: '${{ secrets.DB_USERNAME }}'
+      password_param: '${{ secrets.DB_PASSWORD }}'
+      hostname_param: '${{ secrets.DB_HOSTNAME }}'
+      port_param: '${{ secrets.DB_PORT }}'
+      database_param: '${{ secrets.DB_DATABASE }}'
     steps:
     - name: Checkout code
       uses: actions/checkout@v3
@@ -14,6 +20,7 @@ jobs:
     - name: Build and push
       uses: docker/build-push-action@v2
       with:
+        buildArgs: db_username=$username_param, db_password=$password_param, db_hostname=$hostname_param, db_port=$port_param, db_database=$database_param
         context: .
         push: true
         tags: cutibo29/charging-station:latest, cutibo29/charging-station:${{github.run_number}}
