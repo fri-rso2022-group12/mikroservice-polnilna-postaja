@@ -21,4 +21,7 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - name: Build the Docker image
-      run: docker build . --file Dockerfile  --build-arg db_username=$username_param --build-arg db_password=$password_param --build-arg db_hostname=$hostname_param --build-arg db_port=$port_param --build-arg db_database=$database_param --tag charging-station:$(date +%s)
+      run: 
+        docker build . --file Dockerfile  --build-arg db_username=$username_param --build-arg db_password=$password_param --build-arg db_hostname=$hostname_param --build-arg db_port=$port_param --build-arg db_database=$database_param --tag charging-station:$(date +%s)
+        docker push cutibo29/charging-station:harging-station:$(date +%s)
+    
