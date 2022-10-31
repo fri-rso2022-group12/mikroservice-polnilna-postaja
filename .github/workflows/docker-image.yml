@@ -11,9 +11,15 @@ jobs:
   build:
 
     runs-on: ubuntu-latest
+    env:
+      username_param:--build-arg db_username=$${{ secrets.DB_USERNAME }}
+      password_param:--build-arg db_password=$${{ secrets.DB_PASSWORD }}
+      hostname_param:--build-arg db_hostname=$${{ secrets.DB_HOSTNAME }}
+      port_param:--build-arg db_port=${{ secrets.DB_PORT }}
+      database_param:--build-arg db_database=${{ secrets.$DB_DATABASE }}
 
     steps:
     - uses: actions/checkout@v3
     - name: Build the Docker image
-      run: docker build . --file Dockerfile --build-arg db_port=${{ secrets.DB_PORT }} --build-arg db_database=${{ secrets.$DB_DATABASE }} --build-arg db_username=$${{ secrets.DB_USERNAME }} --build-arg db_password=$${{ secrets.DB_PASSWORD }} --build-arg db_hostname=$${{ secrets.DB_HOSTNAME }}  --tag charging-station:$(date +%s)
+      run: docker build . --file Dockerfile  $username_param $password_param $hostname_param $port_param $database_param --tag charging-station:$(date +%s)
 
