@@ -20,7 +20,7 @@ jobs:
     - name: Build and push
       uses: docker/build-push-action@v2
       with:
-        build-args: db_username=$username_param, db_password=$password_param, db_hostname=$hostname_param, db_port=$port_param, db_database=$database_param
+        build-args: db_username=${{ secrets.DB_USERNAME }}, db_password=${{ secrets.DB_PASSWORD }}, db_hostname=${{ secrets.DB_HOSTNAME }}, db_port=${{ secrets.DB_PORT }}, db_database=${{ secrets.DB_DATABASE }}
         context: .
         push: true
         tags: cutibo29/charging-station:latest, cutibo29/charging-station:${{github.run_number}}
