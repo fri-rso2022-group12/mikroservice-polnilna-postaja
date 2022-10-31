@@ -15,5 +15,5 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - name: Build the Docker image
-      run: docker build . --file Dockerfile --build-arg db_port=$DB_PORT --build-arg db_database=$DB_DATABASE --build-arg db_username=$DB_USERNAME --build-arg db_password=$DB_PASSWORD --build-arg db_hostname=$DB_HOSTNAME  --tag charging-station:$(date +%s)
+      run: docker build . --file Dockerfile --build-arg db_port=${{ secrets.DB_PORT }} --build-arg db_database=${{ secrets.$DB_DATABASE }} --build-arg db_username=$${{ secrets.DB_USERNAME }} --build-arg db_password=$${{ secrets.DB_PASSWORD }} --build-arg db_hostname=$${{ secrets.DB_HOSTNAME }}  --tag charging-station:$(date +%s)
 
