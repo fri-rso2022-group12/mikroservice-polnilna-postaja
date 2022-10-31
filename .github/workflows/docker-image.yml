@@ -12,11 +12,11 @@ jobs:
 
     runs-on: ubuntu-latest
     env:
-      username_param:--build-arg db_username=${{ secrets.DB_USERNAME }}
-      password_param:--build-arg db_password=${{ secrets.DB_PASSWORD }}
-      hostname_param:--build-arg db_hostname=${{ secrets.DB_HOSTNAME }}
-      port_param:--build-arg db_port=${{ secrets.DB_PORT }}
-      database_param:--build-arg db_database=${{ secrets.$DB_DATABASE }}
+      username_param:${{ secrets.DB_USERNAME }}
+      password_param:${{ secrets.DB_PASSWORD }}
+      hostname_param:${{ secrets.DB_HOSTNAME }}
+      port_param:${{ secrets.DB_PORT }}
+      database_param:${{ secrets.$DB_DATABASE }}
 
     steps:
     - uses: actions/checkout@v3
