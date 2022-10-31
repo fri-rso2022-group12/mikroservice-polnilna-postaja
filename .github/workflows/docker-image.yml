@@ -12,14 +12,13 @@ jobs:
 
     runs-on: ubuntu-latest
     env:
-      username_param:${{ secrets.DB_USERNAME }}
-      password_param:${{ secrets.DB_PASSWORD }}
-      hostname_param:${{ secrets.DB_HOSTNAME }}
-      port_param:${{ secrets.DB_PORT }}
-      database_param:${{ secrets.$DB_DATABASE }}
+      username_param:'${{ secrets.DB_USERNAME }}'
+      password_param:'${{ secrets.DB_PASSWORD }}'
+      hostname_param:'${{ secrets.DB_HOSTNAME }}'
+      port_param:'${{ secrets.DB_PORT }}'
+      database_param:'${{ secrets.$DB_DATABASE }}'
 
     steps:
     - uses: actions/checkout@v3
     - name: Build the Docker image
-      run: docker build . --file Dockerfile  $username_param $password_param $hostname_param $port_param $database_param --tag charging-station:$(date +%s)
-
+      run: docker build . --file Dockerfile  --build-arg db_username=$username_param --build-arg db_password=$password_param --build-arg db_hostname=$hostname_param --build-arg db_port=$port_param --build-arg db_database=$database_param --tag charging-station:$(date +%s)
