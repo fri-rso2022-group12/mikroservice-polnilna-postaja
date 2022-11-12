@@ -1,51 +1,48 @@
 package com.rso.ChargingStation.api;
 
 import com.rso.ChargingStation.model.ChargingStation;
-import com.rso.ChargingStation.model.Location;
-import com.rso.ChargingStation.model.StationType;
+import com.rso.ChargingStation.repository.ChargingStationRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
+import javax.persistence.EntityNotFoundException;
 import java.util.List;
 
 @RestController
 @RequestMapping("api/v1/station")
 public class StationAPI {
 
+    @Autowired
+    ChargingStationRepository chargingStationRepository;
+
     @GetMapping("/")
     public List<ChargingStation> getAllStations() {
-        ChargingStation station1 = new ChargingStation(1L);
-        ChargingStation station2 = new ChargingStation(2L);
-        ChargingStation station3 = new ChargingStation(3L);
-        return List.of(station1, station2, station3);
+        return chargingStationRepository.getAllByIdBetween(0l, 100l);
     }
 
     @GetMapping("/{id}")
     public ChargingStation getStationsById(@PathVariable("id") Long id) {
-        return new ChargingStation(id);
+        ChargingStation res = chargingStationRepository.getChargingStationById(id);
+        if (res == null){
+            throw new EntityNotFoundException("No entity with id="+id.toString());
+        }
+        return res;
     }
 
     @GetMapping("/delete/{id}")
     public void deleteStationById(@PathVariable("id") Long id) {
-        System.out.println("Deleted");
+        chargingStationRepository.deleteById(id);
     }
 
     @GetMapping("/nearest")
     public ChargingStation getClosestStation(@RequestParam Double x, @RequestParam Double y){
-        return new ChargingStation(100L,
-                x,
-                y,
-                StationType.TYPE1,
-                3,
-                "Closest station");
+        return chargingStationRepository.getNearestStation(x, y);
     }
 
     @PostMapping(path="/add", consumes=MediaType.APPLICATION_JSON_VALUE, produces=MediaType.APPLICATION_JSON_VALUE)
-    public Long addStation(@RequestBody ChargingStation newChargingStation) {
-        System.out.println(newChargingStation.toString());
-        return 999L;
+    public void addStation(@RequestBody ChargingStation newChargingStation) {
+        chargingStationRepository.save(newChargingStation);
     }
-
-
 
 }
