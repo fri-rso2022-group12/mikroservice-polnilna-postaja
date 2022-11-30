@@ -1,0 +1,62 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: rso-tc-charging-station
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: charging-station
+  template:
+    metadata:
+      labels:
+        app: charging-station
+    spec:
+      containers:
+        - image: cutibo29/charging-station:latest
+          name: charging-station
+          env:
+            - name: DB_PORT
+              value: "1433"
+            - name: DB_DATABASE
+              valueFrom:
+                secretKeyRef:
+                  name: db-user-pass
+                  key: database
+            - name: DB_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: db-user-pass
+                  key: username
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: db-user-pass
+                  key: password
+            - name: DB_HOSTNAME
+              valueFrom:
+                secretKeyRef:
+                  name: db-user-pass
+                  key: database-url
+            - name: DB_UPDATE_TYPE
+              value: update
+          ports:
+            - containerPort: 8080
+              name: server
+              protocol: TCP
+
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: rso-tc-charging-station
+spec:
+  type: LoadBalancer
+  ports:
+    - port: 8080
+      protocol: TCP
+      targetPort: server
+  selector:
+    app: charging-station
