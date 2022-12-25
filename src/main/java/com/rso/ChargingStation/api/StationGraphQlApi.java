@@ -10,21 +10,22 @@ import io.micrometer.core.instrument.Metrics;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.graphql.data.method.annotation.Argument;
+import org.springframework.graphql.data.method.annotation.QueryMapping;
+import org.springframework.stereotype.Controller;
+
 import javax.persistence.EntityNotFoundException;
 import java.time.Duration;
-import java.util.List;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
-@RestController
-@RequestMapping("api/v1/station")
-public class StationAPI {
+@Controller
+public class StationGraphQlApi {
 
     @Autowired
     ChargingStationRepository chargingStationRepository;
+
     @Autowired
     StationAsync stationAsync;
 
@@ -37,15 +38,16 @@ public class StationAPI {
     private final TimeLimiter timeLimiter = TimeLimiter.of(TimeLimiterConfig.custom()
             .timeoutDuration(Duration.ofMillis(500)).build());
 
-    @GetMapping("/")
-    public List<ChargingStation> getAllStations() {
+    @QueryMapping
+    public Iterable<ChargingStation> getStations() {
         apiCallCounter.increment();
         logger.info("function call");
         return countCircuitBreaker.decorateSupplier(() -> chargingStationRepository.getAllByIdBetween(0l, 100l)).get();
+
     }
 
-    @GetMapping("/{id}")
-    public ChargingStation getStationsById(@PathVariable("id") Long id) {
+    @QueryMapping
+    public ChargingStation getStationById(@Argument Long id) {
         apiCallCounter.increment();
         logger.info("function call");
         return countCircuitBreaker.decorateSupplier(() -> {
@@ -60,26 +62,5 @@ public class StationAPI {
             }
             return res;
         }).get();
-    }
-
-    @GetMapping("/delete/{id}")
-    public void deleteStationById(@PathVariable("id") Long id) {
-        apiCallCounter.increment();
-        logger.info("function call");
-        chargingStationRepository.deleteById(id);
-    }
-
-    @GetMapping("/nearest")
-    public ChargingStation getClosestStation(@RequestParam Double x, @RequestParam Double y){
-        logger.info("function call");
-        apiCallCounter.increment();
-        return countCircuitBreaker.decorateSupplier(() -> chargingStationRepository.getNearestStation(x, y)).get();
-    }
-
-    @PostMapping(path="/add", consumes=MediaType.APPLICATION_JSON_VALUE, produces=MediaType.APPLICATION_JSON_VALUE)
-    public void addStation(@RequestBody ChargingStation newChargingStation) {
-        apiCallCounter.increment();
-        logger.info("function call");
-        chargingStationRepository.save(newChargingStation);
     }
 }

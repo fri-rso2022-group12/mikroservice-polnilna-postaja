@@ -1,0 +1,13 @@
+type Query {
+    getStations: [ChargingStation]
+    getStationById(id: ID!): ChargingStation
+}
+
+type ChargingStation {
+    id: ID!
+    x: Float!
+    y: Float!
+    numPorts: Int!
+    description: String!
+    stationType: Int!
+}

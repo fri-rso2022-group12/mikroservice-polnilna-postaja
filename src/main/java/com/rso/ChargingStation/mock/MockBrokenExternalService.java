@@ -1,4 +1,4 @@
-package com.rso.ChargingStation;
+package com.rso.ChargingStation.mock;
 
 import com.rso.ChargingStation.model.ChargingStation;
 import org.springframework.stereotype.Service;
