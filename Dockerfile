@@ -5,7 +5,6 @@ RUN mvn dependency:go-offline -B
 COPY ./src /app/src
 
 ENV DB_UPDATE_TYPE none
-ENV KAFKA_HOST 34.173.164.107:9092
 
 RUN mvn --show-version --update-snapshots --batch-mode clean package
 
