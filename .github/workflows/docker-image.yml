@@ -19,7 +19,7 @@ jobs:
       database_param: '${{ secrets.DB_DATABASE }}'
       hub_username: ${{secrets.DOCKER_HUB_USERNAME}}
       hub_password: ${{secrets.DOCKER_HUB_ACCESS_TOKEN}}
-      kafka_host: ${{secrets.KAFKA_HOST}}
+      KAFKA_HOST: ${{secrets.KAFKA_HOST}}
 
     steps:
     - uses: actions/checkout@v3
