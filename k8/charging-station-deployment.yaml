@@ -38,6 +38,11 @@ spec:
                 secretKeyRef:
                   name: db-user-pass
                   key: database-url
+            - name: KAFKA_HOST
+              valueFrom:
+                secretKeyRef:
+                  name: db-user-pass
+                  key: kafka_host
             - name: DB_UPDATE_TYPE
               value: update
           ports:
